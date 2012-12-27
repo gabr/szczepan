@@ -22,6 +22,13 @@ int main(int argc, char const *argv[])
 
     FILE *f_i;
     f_i = fopen(_i, "r");
+    if(f_i == NULL)
+    {
+        printf("! error: file %s not found!\n", _i);
+        return 1;
+    }
+
+    
 
     
     return 0;
