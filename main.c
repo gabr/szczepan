@@ -19,6 +19,10 @@ int main(int argc, char const *argv[])
         printf("%s", help_options);
         return 1;
     }
+
+    FILE *f_i;
+    f_i = fopen(_i, "r");
+
     
     return 0;
 }
