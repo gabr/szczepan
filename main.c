@@ -13,6 +13,12 @@ int main(int argc, char const *argv[])
 
     const char * _i = getOption("-i",(char*)0, argc, argv);
     const char * _o = getOption("-o","output.txt", argc, argv);
+
+    if ((char*)0 == _i || ('-' == _i[0] || '-' == _o[0]))
+    {
+        printf("%s", help_options);
+        return 1;
+    }
     
     return 0;
 }
