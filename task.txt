@@ -1,0 +1,51 @@
+program: (7) Documentation
+Write a program to analyze the code in Pascal. The input ﬁle is the program *.c. The program prints
+to the output ﬁle all the constants and variables, functions, and procedures. These elements are written
+out in alphabetical order.
+
+Sample action:
+
+The input ﬁle:
+
+#define CONSTANT 1034 #define MAX 5 int index, result;
+char string;
+void wz(int a, int b)
+{
+	char variable;
+	...
+}
+void pp(char* name, int how_many)
+{
+	int counter;
+	...
+}
+int main()
+{
+	return 0;
+}
+
+The output ﬁle:
+
+constants:
+CONSTANT
+MAX
+variables:
+index: integer;
+string: char;
+result: integer;
+types are not defined
+functions are not defined
+procedure:
+void pp(char* name, int how_many)
+lack of constans
+variables:
+counter: integer;
+types are not defined
+void wz(int a, int b)
+lack of constants
+variables:
+variable: char;
+types are not defined
+
+The program is run from the command line using the following switches (switches the order is arbitrary):-i input ﬁle with source code
+-o output ﬁle with description
