@@ -28,16 +28,21 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
-    char c;
-    int i=0;
-    while(c = fgetc(f_i), c != EOF)
+    char *buf = malloc(255*sizeof(char));
+    if(buf == NULL)
     {
-        
-        i++;
+        printf("! error: not enough memory!\n");
+        free(buf);
+        fclose(f_i);
+        return 1;
     }
 
-    printf("Ilosc znakow: %d\n", i);
 
+    
+
+
+
+    free(buf);
     fclose(f_i);
     return 0;
 }
