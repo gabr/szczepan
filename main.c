@@ -60,7 +60,11 @@ int main(int argc, char const *argv[])
         }
     }
 
-
+    while(global_head != NULL)
+    {
+        printf("stała: %s\n", global_head->name);
+        global_head = global_head->next;
+    }
 
     free(buf);
     fclose(f_i);
