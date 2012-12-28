@@ -4,6 +4,13 @@
 int index, result;
 char string;
 
+struct constants
+{
+    char* name;
+    char* typ;
+    struct constants *next;
+};
+
 void wz(int a, int b)
 {
 	char variable;

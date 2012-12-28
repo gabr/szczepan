@@ -62,6 +62,12 @@ int main(int argc, char const *argv[])
         else if (!strcmp(buf, "struct"))
         {
             getFileData(' ', tmp, f_i);
+            printf("Nazawa struktury: %s\n", tmp);
+            char j = fgetc(f_i);
+            while(c = fgetc(f_i), true){
+                printf("%c\n", c);
+                if(j != '}' && c == ';') break;
+            }
         }
     }
 
