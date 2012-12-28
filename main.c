@@ -38,7 +38,14 @@ int main(int argc, char const *argv[])
     }
 
 
-    
+    char c;
+    while(c = getFileData(' ', buf, f_i), c != EOF){
+        if(!strcmp(buf, "#define")){
+            char *tmp = malloc(255*sizeof(char));
+            getFileData(' ', tmp, f_i);
+            printf("nazwa: %s\n", tmp);
+        }
+    }
 
 
 
