@@ -28,8 +28,16 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
-    
+    char c;
+    int i=0;
+    while(c = fgetc(f_i), c != EOF)
+    {
+        
+        i++;
+    }
 
-    
+    printf("Ilosc znakow: %d\n", i);
+
+    fclose(f_i);
     return 0;
 }
