@@ -29,7 +29,7 @@ char getFileData(char pattern,char *buf, FILE *f)
     int start = ftell(f);
 
     // counting number of chars from start point to the searching pattern
-    while(c = fgetc(f), c != pattern && c!= '\n' && c != EOF);
+    while(c = fgetc(f), c != pattern && c != '\t' && c!= '\n' && c != EOF);
     
     // save the pattern position in file
     int end = ftell(f);

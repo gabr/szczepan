@@ -6,24 +6,24 @@ char string;
 
 struct constants
 {
-    char* name;
-    char* typ;
-    struct constants *next;
+	char* name;
+	char* typ;
+	struct constants *next;
 };
 
 void wz(int a, int b)
 {
-    char variable;
-    ...
+	char variable;
+	...
 }
 
 void pp(char* name, int how_many)
 {
-    int counter;
-    ...
+	int counter;
+	...
 }
 
 int main()
 {
-    return 0;
+	return 0;
 }
