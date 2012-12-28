@@ -45,7 +45,10 @@ int main(int argc, char const *argv[])
             getFileData(' ', tmp, f_i);
             printf("nazwa: %s\n", tmp);
 
-            while(c = fgetc(f_i), );
+            char j = fgetc(f_i);
+            while(c = fgetc(f_i), true){
+
+            }
         }
     }
 
