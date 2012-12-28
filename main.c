@@ -37,13 +37,21 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
-
+    struct constants *globa_head = NULL;
     char c;
     while(c = getFileData(' ', buf, f_i), c != EOF){
         if(!strcmp(buf, "#define")){
             char *tmp = malloc(255*sizeof(char));
             getFileData(' ', tmp, f_i);
-            printf("nazwa: %s\n", tmp);
+
+            //------------------------------------------------------------------
+            struct constants *element = malloc(sizeof(struct constants));
+            if(globa_head != NULL){
+
+            }
+
+
+            //------------------------------------------------------------------
 
             char j = fgetc(f_i);
             while(c = fgetc(f_i), true){
