@@ -57,16 +57,19 @@ int main(int argc, char const *argv[])
             char j = fgetc(f_i);
             while(c = fgetc(f_i), true){
                 if(j != '/' && c == '\n') break;
+                j = c;
             }
         }
         else if (!strcmp(buf, "struct"))
         {
             getFileData(' ', tmp, f_i);
             printf("Nazawa struktury: %s\n", tmp);
+
             char j = fgetc(f_i);
             while(c = fgetc(f_i), true){
-                printf("%c\n", c);
-                if(j != '}' && c == ';') break;
+                printf("%c", c);
+                if(j == '}' && c == ';') break;
+                j = c;
             }
         }
     }
