@@ -80,6 +80,16 @@ int main(int argc, char const *argv[])
                 j = c;
             }
         }
+        else swich(buf[0]){
+            case 'c': if(!strcmp(buf, "char"));
+            case 's':
+            case 'u':
+            case 'i':
+            case 'l':
+            case 'f':
+            case 'd':
+            default: printf("ERROR! COS POSZLO NIE TAK GLABIE!\n"); return 1;
+        }
     }
 
     while(consts_global_head != NULL)
