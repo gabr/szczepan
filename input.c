@@ -13,17 +13,17 @@ struct constants
 
 void wz(int a, int b)
 {
-	char variable;
-	...
+    char variable;
+    ...
 }
 
 void pp(char* name, int how_many)
 {
-	int counter;
-	...
+    int counter;
+    ...
 }
 
 int main()
 {
-	return 0;
+    return 0;
 }

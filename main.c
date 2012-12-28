@@ -80,15 +80,16 @@ int main(int argc, char const *argv[])
                 j = c;
             }
         }
-        else swich(buf[0]){
-            case 'c': if(!strcmp(buf, "char"));
-            case 's':
-            case 'u':
-            case 'i':
-            case 'l':
-            case 'f':
-            case 'd':
-            default: printf("ERROR! COS POSZLO NIE TAK GLABIE!\n"); return 1;
+        else if(!strcmp(buf, "int") || !strcmp(buf, "char")
+                || !strcmp(buf, "short") || !strcmp(buf, "float")
+                || !strcmp(buf, "double") || !strcmp(buf, "long")
+                || !strcmp(buf, "signed") || !strcmp(buf, "unsigned")){
+
+            printf("WESZŁO!");
+            printf("%s ", buf);
+            while(c=fgetc(f_i), c!='\n') printf("%c", c);
+            printf("\n");
+
         }
     }
 
