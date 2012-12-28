@@ -61,7 +61,7 @@ int main(int argc, char const *argv[])
         }
         else if (!strcmp(buf, "struct"))
         {
-            
+            getFileData(' ', tmp, f_i);
         }
     }
 
