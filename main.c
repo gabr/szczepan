@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
 
             char j = fgetc(f_i);
             while(c = fgetc(f_i), true){
-
+                if(j != '/' && c == '\n') break;
             }
         }
     }
