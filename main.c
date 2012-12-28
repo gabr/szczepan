@@ -39,7 +39,8 @@ int main(int argc, char const *argv[])
     }
 
 
-    struct constants *global_head = NULL;
+    struct constants *consts_global_head = NULL;
+    struct types *types_global_head = NULL;
     char c;
     while(c = getFileData(' ', buf, f_i), c != EOF){
         if(!strcmp(buf, "#define")){ 
@@ -50,8 +51,8 @@ int main(int argc, char const *argv[])
             element->name = malloc(strlen(tmp)*sizeof(char));
             strcpy(element->name, tmp);
             element->typ = NULL;
-            element->next = global_head;
-            global_head = element;
+            element->next = consts_global_head;
+            consts_global_head = element;
             //------------------------------------------------------------------
 
             char j = fgetc(f_i);
@@ -76,10 +77,10 @@ int main(int argc, char const *argv[])
         }
     }
 
-    while(global_head != NULL)
+    while(consts_global_head != NULL)
     {
-        printf("stała: %s\n", global_head->name);
-        global_head = global_head->next;
+        printf("stała: %s\n", consts_global_head->name);
+        consts_global_head = consts_global_head->next;
     }
 
     free(buf);
