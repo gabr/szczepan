@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
-    struct constants *globa_head = NULL;
+    struct constants *global_head = NULL;
     char c;
     while(c = getFileData(' ', buf, f_i), c != EOF){
         if(!strcmp(buf, "#define")){
