@@ -44,6 +44,8 @@ int main(int argc, char const *argv[])
             char *tmp = malloc(255*sizeof(char));
             getFileData(' ', tmp, f_i);
             printf("nazwa: %s\n", tmp);
+
+            while(c = fgetc(f_i), );
         }
     }
 
