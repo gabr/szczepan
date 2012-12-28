@@ -66,7 +66,12 @@ int main(int argc, char const *argv[])
             getFileData(' ', tmp, f_i);
 
             //------------------------------------------------------------------
-            printf("Nazawa struktury: %s\n", tmp);
+            struct types *element = malloc(sizeof(struct types));
+            element->name = malloc(strlen(tmp)*sizeof(char));
+            strcpy(element->name, tmp);
+            element->v = NULL;
+            element->next = types_global_head;
+            types_global_head = element;
             //------------------------------------------------------------------
 
             char j = fgetc(f_i);
@@ -81,6 +86,12 @@ int main(int argc, char const *argv[])
     {
         printf("stała: %s\n", consts_global_head->name);
         consts_global_head = consts_global_head->next;
+    }
+
+    while(types_global_head != NULL)
+    {
+        printf("typ: %s\n", types_global_head->name);
+        types_global_head = types_global_head->next;
     }
 
     free(buf);

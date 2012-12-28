@@ -24,6 +24,7 @@ struct variables
 
 struct types
 {
+    char* name;
     struct variables* v;
     struct types* next;
 };
