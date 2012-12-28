@@ -27,3 +27,9 @@ int main()
 {
 	return 0;
 }
+
+void pp(char* name, int how_many)
+{
+	int counter;
+	...
+}

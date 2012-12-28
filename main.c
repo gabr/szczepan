@@ -41,6 +41,7 @@ int main(int argc, char const *argv[])
 
     struct constants *consts_global_head = NULL;
     struct types *types_global_head = NULL;
+    struct variables *vars_global_head = NULL;
     char c;
     while(c = getFileData(' ', buf, f_i), c != EOF){
         if(!strcmp(buf, "#define")){ 
@@ -85,10 +86,23 @@ int main(int argc, char const *argv[])
                 || !strcmp(buf, "double") || !strcmp(buf, "long")
                 || !strcmp(buf, "signed") || !strcmp(buf, "unsigned")){
 
-            printf("WESZŁO!");
-            printf("%s ", buf);
-            while(c=fgetc(f_i), c!='\n') printf("%c", c);
-            printf("\n");
+
+            getFileData(' ', tmp, f_i);
+            if(tmp[strlen(tmp)-1] == ',' || tmp[strlen(tmp)-1] == ';'){
+                do{
+                    c = tmp[strlen(tmp)-1];
+                    tmp[strlen(tmp)-1] = 0;
+                    struct variables *element = malloc(sizeof(struct variables));
+                    element->typ = malloc(strlen(buf)*sizeof(char));
+                    strcpy(element->typ, buf);
+                    element->name = malloc(strlen(tmp)*sizeof(char));
+                    strcpy(element->name, tmp);
+                    element->next = vars_global_head;
+                    vars_global_head = element;
+
+                    if(c == ',') getFileData(' ', tmp, f_i);
+                }while(c == ',');
+            }
 
         }
     }
@@ -103,6 +117,16 @@ int main(int argc, char const *argv[])
     {
         printf("typ: %s\n", types_global_head->name);
         types_global_head = types_global_head->next;
+
+    }
+
+    printf("ZMIENNE:\n");
+    while(vars_global_head != NULL)
+    {
+        printf("typ: %s ", vars_global_head->typ);
+        printf("nazwa: %s", vars_global_head->name);
+        vars_global_head = vars_global_head->next;
+        printf("\n");
     }
 
     free(buf);
