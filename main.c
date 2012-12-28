@@ -29,7 +29,8 @@ int main(int argc, char const *argv[])
     }
 
     char *buf = malloc(255*sizeof(char));
-    if(buf == NULL)
+    char *tmp = malloc(255*sizeof(char));
+    if(buf == NULL || tmp == NULL)
     {
         printf("! error: not enough memory!\n");
         free(buf);
@@ -37,11 +38,11 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
+
     struct constants *global_head = NULL;
     char c;
     while(c = getFileData(' ', buf, f_i), c != EOF){
-        if(!strcmp(buf, "#define")){
-            char *tmp = malloc(255*sizeof(char));
+        if(!strcmp(buf, "#define")){ 
             getFileData(' ', tmp, f_i);
 
             //------------------------------------------------------------------
@@ -57,6 +58,10 @@ int main(int argc, char const *argv[])
             while(c = fgetc(f_i), true){
                 if(j != '/' && c == '\n') break;
             }
+        }
+        else if (!strcmp(buf, "struct"))
+        {
+            
         }
     }
 
