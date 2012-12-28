@@ -1,4 +1,6 @@
-#define CONSTANT 1034 #define MAX 5 int index, result;
+#define CONSTANT 1034 
+#define MAX 5 
+int index, result;
 char string;
 void wz(int a, int b)
 {
