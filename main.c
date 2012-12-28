@@ -46,11 +46,11 @@ int main(int argc, char const *argv[])
 
             //------------------------------------------------------------------
             struct constants *element = malloc(sizeof(struct constants));
-            if(globa_head != NULL){
-
-            }
-
-
+            element->name = malloc(strlen(tmp)*sizeof(char));
+            strcpy(element->name, tmp);
+            element->typ = NULL;
+            element->next = global_head;
+            global_head = element;
             //------------------------------------------------------------------
 
             char j = fgetc(f_i);
