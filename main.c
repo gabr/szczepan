@@ -1,12 +1,10 @@
 #include "functions.h"
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
     const char *help_options = "\n\tDocumentation\n \toptions: \n\t-u optional:\n\t-o <output file> // by default output.txt \n\n";
 
 
-    if(argc < 2)
-    {
+    if(argc < 2) {
         printf("%s", help_options);
         return 1;
     }                    
@@ -14,24 +12,21 @@ int main(int argc, char const *argv[])
     const char * _i = getOption("-i",(char*)0, argc, argv);
     const char * _o = getOption("-o","output.txt", argc, argv);
 
-    if ((char*)0 == _i || ('-' == _i[0] || '-' == _o[0]))
-    {
+    if ((char*)0 == _i || ('-' == _i[0] || '-' == _o[0])) {
         printf("%s", help_options);
         return 1;
     }
 
     FILE *f_i;
     f_i = fopen(_i, "r");
-    if(f_i == NULL)
-    {
+    if(f_i == NULL) {
         printf("! error: file %s not found!\n", _i);
         return 1;
     }
 
     char *buf = malloc(255*sizeof(char));
     char *tmp = malloc(255*sizeof(char));
-    if(buf == NULL || tmp == NULL)
-    {
+    if(buf == NULL || tmp == NULL) {
         printf("! error: not enough memory!\n");
         free(buf);
         fclose(f_i);
@@ -62,8 +57,7 @@ int main(int argc, char const *argv[])
                 j = c;
             }
         }
-        else if (!strcmp(buf, "struct"))
-        {
+        else if (!strcmp(buf, "struct")) {
             getFileData(' ', tmp, f_i);
 
             //------------------------------------------------------------------
@@ -84,14 +78,28 @@ int main(int argc, char const *argv[])
         else if(!strcmp(buf, "int") || !strcmp(buf, "char")
                 || !strcmp(buf, "short") || !strcmp(buf, "float")
                 || !strcmp(buf, "double") || !strcmp(buf, "long")
-                || !strcmp(buf, "signed") || !strcmp(buf, "unsigned")){
+                || !strcmp(buf, "signed") || !strcmp(buf, "unsigned")
+                || !strcmp(buf, "void")){
 
 
-            getFileData(' ', tmp, f_i);
-            if(tmp[strlen(tmp)-1] == ',' || tmp[strlen(tmp)-1] == ';'){
+            int start = ftell(f_i);
+            while(c = fgetc(f_i), c != ';'){
+               if(c == '{') break; 
+            }
+            fseek(f_i, start, SEEK_SET);
+
+            if(c != '{') {
+                c = getFileData(',', tmp, f_i);
                 do{
-                    c = tmp[strlen(tmp)-1];
-                    tmp[strlen(tmp)-1] = 0;
+                    fseek(f_i, ftell(f_i)-1, SEEK_SET);
+                    c = fgetc(f_i); fgetc(f_i);
+
+                    while(tmp[strlen(tmp)-1] == ','
+                       || tmp[strlen(tmp)-1] == ' '
+                       || tmp[strlen(tmp)-1] == ';'
+                       || tmp[strlen(tmp)-1] == '\n')
+                        tmp[strlen(tmp)-1] = 0;
+
                     struct variables *element = malloc(sizeof(struct variables));
                     element->typ = malloc(strlen(buf)*sizeof(char));
                     strcpy(element->typ, buf);
@@ -102,27 +110,29 @@ int main(int argc, char const *argv[])
 
                     if(c == ',') getFileData(' ', tmp, f_i);
                 }while(c == ',');
+            } else {
+                // fseek(f_i, start - strlen(buf) -1, SEEK_SET);
+                // while(c = fgetc(f_i), c != '}')
+                //     printf("%c", c);
+                // printf("%c", c);
             }
 
         }
     }
 
-    while(consts_global_head != NULL)
-    {
+    while(consts_global_head != NULL) {
         printf("stała: %s\n", consts_global_head->name);
         consts_global_head = consts_global_head->next;
     }
 
-    while(types_global_head != NULL)
-    {
+    while(types_global_head != NULL) {
         printf("typ: %s\n", types_global_head->name);
         types_global_head = types_global_head->next;
 
     }
 
     printf("ZMIENNE:\n");
-    while(vars_global_head != NULL)
-    {
+    while(vars_global_head != NULL) {
         printf("typ: %s ", vars_global_head->typ);
         printf("nazwa: %s", vars_global_head->name);
         vars_global_head = vars_global_head->next;

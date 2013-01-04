@@ -8,37 +8,32 @@
 #define true 1
 #define false 0
 
-struct constants
-{
+struct constants {
     char* name;
     char* typ;
     struct constants *next;
 };
 
-struct variables
-{
+struct variables {
     char* name;
     char* typ;
     struct variables *next;
 };
 
-struct types
-{
+struct types {
     char* name;
     struct variables* v;
     struct types* next;
 };
 
-struct functions
-{
+struct functions {
     struct constants* c;
     struct variables* v;
     struct types* t;
     struct functions* next;
 };
 
-struct procedures
-{
+struct procedures {
     struct constants* c;
     struct variables* v;
     struct types* t;

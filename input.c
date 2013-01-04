@@ -1,7 +1,7 @@
 #define CONSTANT 1034
 #define MAX 5 
 
-int index, result;
+int index , result;
 char string;
 
 struct constants
@@ -11,7 +11,7 @@ struct constants
 	struct constants *next;
 };
 
-void wz(int a, int b)
+int wz(int a, int b)
 {
 	char variable;
 	...

@@ -4,8 +4,7 @@
 #include "functions.h"
 
 inline const char*  getOption(const char * name, const char * defaut,
-								int argc, char ** argv)
-{
+								int argc, char ** argv) {
     const char *result = 0;
 
     int k = 0;
@@ -23,8 +22,7 @@ inline const char*  getOption(const char * name, const char * defaut,
     return result;
 }
 
-char getFileData(char pattern,char *buf, FILE *f)
-{
+char getFileData(char pattern,char *buf, FILE *f) {
     char c;
     int start = ftell(f);
 
