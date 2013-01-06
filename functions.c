@@ -45,4 +45,67 @@ char getFileData(char pattern,char *buf, FILE *f) {
     return c;
 }
 
+int isType(char* buf){
+    return (!strcmp(buf, "int") || !strcmp(buf, "char")
+                || !strcmp(buf, "short") || !strcmp(buf, "float")
+                || !strcmp(buf, "double") || !strcmp(buf, "long")
+                || !strcmp(buf, "signed") || !strcmp(buf, "unsigned")
+                || !strcmp(buf, "void"));
+}
+
+int isVariable(char* buf, FILE* f_i){
+
+    char c;
+    int start = ftell(f_i);
+    while(c = fgetc(f_i), c != ';'){
+       if(c == '{') break; 
+    }
+
+    fseek(f_i, start, SEEK_SET);
+    if(c != '{') return true;
+    else {
+        fseek(f_i, start - strlen(buf) -1, SEEK_SET);
+        return false;
+    }
+}
+
+struct variables* getVaribles(char* buf, struct variables* var_head, 
+    FILE* f_i){
+
+    struct variables* vars_global_head = var_head;
+    char *tmp = malloc(255*sizeof(char));
+    if(tmp == NULL) {
+        free(tmp);
+        return NULL;
+    }
+
+    char c = getFileData(',', tmp, f_i);
+    do{
+        fseek(f_i, ftell(f_i)-1, SEEK_SET);
+        c = fgetc(f_i); fgetc(f_i);
+
+        while(tmp[strlen(tmp)-1] == ','
+           || tmp[strlen(tmp)-1] == ' '
+           || tmp[strlen(tmp)-1] == ';'
+           || tmp[strlen(tmp)-1] == '\n')
+            tmp[strlen(tmp)-1] = 0;
+
+        struct variables *element = malloc(sizeof(struct variables));
+        if(element == NULL) {
+            free(tmp);
+            return NULL;
+        }
+        element->typ = malloc(strlen(buf)*sizeof(char));
+        strcpy(element->typ, buf);
+        element->name = malloc(strlen(tmp)*sizeof(char));
+        strcpy(element->name, tmp);
+        element->next = vars_global_head;
+        vars_global_head = element;
+
+        if(c == ',') getFileData(' ', tmp, f_i);
+        else fseek(f_i, ftell(f_i)-1, SEEK_SET);
+    }while(c == ',');
+
+    return vars_global_head;
+}
 #endif

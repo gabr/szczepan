@@ -29,6 +29,7 @@ int main(int argc, char const *argv[]) {
     if(buf == NULL || tmp == NULL) {
         printf("! error: not enough memory!\n");
         free(buf);
+        free(tmp);
         fclose(f_i);
         return 1;
     }
@@ -75,48 +76,21 @@ int main(int argc, char const *argv[]) {
                 j = c;
             }
         }
-        else if(!strcmp(buf, "int") || !strcmp(buf, "char")
-                || !strcmp(buf, "short") || !strcmp(buf, "float")
-                || !strcmp(buf, "double") || !strcmp(buf, "long")
-                || !strcmp(buf, "signed") || !strcmp(buf, "unsigned")
-                || !strcmp(buf, "void")){
-
-
-            int start = ftell(f_i);
-            while(c = fgetc(f_i), c != ';'){
-               if(c == '{') break; 
-            }
-            fseek(f_i, start, SEEK_SET);
-
-            if(c != '{') {
-                c = getFileData(',', tmp, f_i);
-                do{
-                    fseek(f_i, ftell(f_i)-1, SEEK_SET);
-                    c = fgetc(f_i); fgetc(f_i);
-
-                    while(tmp[strlen(tmp)-1] == ','
-                       || tmp[strlen(tmp)-1] == ' '
-                       || tmp[strlen(tmp)-1] == ';'
-                       || tmp[strlen(tmp)-1] == '\n')
-                        tmp[strlen(tmp)-1] = 0;
-
-                    struct variables *element = malloc(sizeof(struct variables));
-                    element->typ = malloc(strlen(buf)*sizeof(char));
-                    strcpy(element->typ, buf);
-                    element->name = malloc(strlen(tmp)*sizeof(char));
-                    strcpy(element->name, tmp);
-                    element->next = vars_global_head;
-                    vars_global_head = element;
-
-                    if(c == ',') getFileData(' ', tmp, f_i);
-                }while(c == ',');
+        else if(isType(buf)){ 
+            if(isVariable(buf, f_i)){
+                vars_global_head = getVaribles(buf, vars_global_head, f_i);
+                if(vars_global_head == NULL){
+                    printf("! error: not enough memory!\n");
+                    free(buf);
+                    free(tmp);
+                    fclose(f_i);
+                    return 1;
+                }
             } else {
-                // fseek(f_i, start - strlen(buf) -1, SEEK_SET);
-                // while(c = fgetc(f_i), c != '}')
-                //     printf("%c", c);
+                while(c = fgetc(f_i), c != '}')
+                    printf("");
                 // printf("%c", c);
             }
-
         }
     }
 

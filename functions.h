@@ -43,6 +43,8 @@ struct procedures {
 inline const char*  getOption(const char * name, const char * defaut,
                                 int argc, char ** argv);
 char getFileData(char patern, char *buf, FILE *f);
-
-
+int isType(char* buf);
+int isVariable(char* buf, FILE* f_i);
+struct variables* getVaribles(char* buf, struct variables* var_head, 
+    FILE* f_i);
 #endif
