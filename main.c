@@ -87,9 +87,19 @@ int main(int argc, char const *argv[]) {
                     return 1;
                 }
             } else {
-                while(c = fgetc(f_i), c != '}')
-                    printf("");
-                // printf("%c", c);
+                printf("\nFUNKCJA:\n");
+                while(c = fgetc(f_i), c != '}'){
+                    fseek(f_i, ftell(f_i)-1, SEEK_SET);
+                    getFileData('{', buf, f_i);
+                    while(buf[strlen(buf)-1] != ')')
+                        buf[strlen(tmp-1)] = 0;
+                    fseek(f_i, ftell(f_i)-1, SEEK_SET);
+                    while(fgetc(f_i) != ')')
+                        fseek(f_i, ftell(f_i)-2, SEEK_SET);
+
+                    printf("%s", buf);
+                    break;
+                }
             }
         }
     }
