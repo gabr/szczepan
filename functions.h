@@ -27,18 +27,13 @@ struct types {
 };
 
 struct functions {
+    char* name;
     struct constants* c;
     struct variables* v;
     struct types* t;
     struct functions* next;
 };
 
-struct procedures {
-    struct constants* c;
-    struct variables* v;
-    struct types* t;
-    struct procedures* next;
-};
 
 inline const char*  getOption(const char * name, const char * defaut,
                                 int argc, char ** argv);

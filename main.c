@@ -38,6 +38,9 @@ int main(int argc, char const *argv[]) {
     struct constants *consts_global_head = NULL;
     struct types *types_global_head = NULL;
     struct variables *vars_global_head = NULL;
+    struct functions *functions_global_head = NULL;
+    struct functions *procedures_global_headi = NULL;
+
     char c;
     while(c = getFileData(' ', buf, f_i), c != EOF){
         if(!strcmp(buf, "#define")){ 
@@ -87,19 +90,34 @@ int main(int argc, char const *argv[]) {
                     return 1;
                 }
             } else {
-                printf("\nFUNKCJA:\n");
-                while(c = fgetc(f_i), c != '}'){
-                    fseek(f_i, ftell(f_i)-1, SEEK_SET);
-                    getFileData('{', buf, f_i);
-                    while(buf[strlen(buf)-1] != ')')
-                        buf[strlen(tmp-1)] = 0;
-                    fseek(f_i, ftell(f_i)-1, SEEK_SET);
-                    while(fgetc(f_i) != ')')
-                        fseek(f_i, ftell(f_i)-2, SEEK_SET);
 
-                    printf("%s", buf);
-                    break;
+                getFileData('{', buf, f_i);
+
+                while(buf[strlen(buf)-1] != ')')
+                    buf[strlen(tmp-1)] = 0;
+
+                while(fgetc(f_i) != ')')
+                    fseek(f_i, ftell(f_i)-2, SEEK_SET);
+
+                int func_start = ftell(f_i);
+                while(fgetc(f_i) != '}');
+                int func_end = ftell(f_i);
+                fseek(f_i, func_start, SEEK_SET);
+
+                struct functions *func_tmp = malloc(sizeof(struct functions));
+                func_tmp->name = malloc(strlen(buf)*sizeof(char));
+                strcpy(func_tmp->name, buf);
+                while(getFileData(' ', buf, f_i), ftell(f_i) < func_end){
+                printf("name1,7: %s\n", func_tmp->name);
+                    if(isType(buf)){
+                        func_tmp->v = getVaribles(buf, func_tmp->v, f_i);
+                    }
                 }
+
+                func_tmp->c = NULL;
+                func_tmp->t = NULL;
+                func_tmp->next = functions_global_head;
+                functions_global_head = func_tmp;
             }
         }
     }
@@ -120,6 +138,45 @@ int main(int argc, char const *argv[]) {
         printf("typ: %s ", vars_global_head->typ);
         printf("nazwa: %s", vars_global_head->name);
         vars_global_head = vars_global_head->next;
+        printf("\n");
+    }
+
+    printf("FUNKCJE:\n");
+    while(functions_global_head != NULL) {
+        printf("%s\n", functions_global_head->name);
+
+        if(functions_global_head->c == NULL)
+            printf("\tlack of constats\n");
+        else {
+            printf("\tconstants:");
+            while(functions_global_head->c != NULL){
+                printf("\n\t%s: %s\n", functions_global_head->c->name, 
+                    functions_global_head->c->typ);
+                functions_global_head->c = functions_global_head->c->next;
+            }
+        }
+
+        if(functions_global_head->v == NULL)
+            printf("\tlack of variables\n");
+        else {
+            printf("\tvariables:");
+            while(functions_global_head->v != NULL){
+                printf("\n\t%s: %s\n", functions_global_head->v->name, 
+                    functions_global_head->v->typ);
+                functions_global_head->v = functions_global_head->v->next;
+            }
+        }
+
+        if(functions_global_head->t == NULL)
+            printf("\tlack of types");
+        else {
+            printf("\tconstants:");
+            while(functions_global_head->t != NULL){
+                functions_global_head->t = functions_global_head->t->next;
+            }
+        }
+
+        functions_global_head = functions_global_head->next;
         printf("\n");
     }
 
