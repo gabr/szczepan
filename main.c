@@ -39,26 +39,18 @@ int main(int argc, char const *argv[]) {
     struct types *types_global_head = NULL;
     struct variables *vars_global_head = NULL;
     struct functions *functions_global_head = NULL;
-    struct functions *procedures_global_headi = NULL;
+    struct functions *procedures_global_head = NULL;
 
     char c;
     while(c = getFileData(' ', buf, f_i), c != EOF){
         if(!strcmp(buf, "#define")){ 
-            getFileData(' ', tmp, f_i);
-
-            //------------------------------------------------------------------
-            struct constants *element = malloc(sizeof(struct constants));
-            element->name = malloc(strlen(tmp)*sizeof(char));
-            strcpy(element->name, tmp);
-            element->typ = NULL;
-            element->next = consts_global_head;
-            consts_global_head = element;
-            //------------------------------------------------------------------
-
-            char j = fgetc(f_i);
-            while(c = fgetc(f_i), true){
-                if(j != '/' && c == '\n') break;
-                j = c;
+            consts_global_head = getConstants(buf, consts_global_head, f_i);
+            if(consts_global_head == NULL){
+                printf("! error: not enough memory!\n");
+                free(buf);
+                free(tmp);
+                fclose(f_i);
+                return 1;
             }
         }
         else if (!strcmp(buf, "struct")) {
@@ -107,8 +99,8 @@ int main(int argc, char const *argv[]) {
                 struct functions *func_tmp = malloc(sizeof(struct functions));
                 func_tmp->name = malloc(strlen(buf)*sizeof(char));
                 strcpy(func_tmp->name, buf);
+
                 while(getFileData(' ', buf, f_i), ftell(f_i) < func_end){
-                printf("name1,7: %s\n", func_tmp->name);
                     if(isType(buf)){
                         func_tmp->v = getVaribles(buf, func_tmp->v, f_i);
                     }
@@ -181,6 +173,7 @@ int main(int argc, char const *argv[]) {
     }
 
     free(buf);
+    free(tmp);
     fclose(f_i);
     return 0;
 }

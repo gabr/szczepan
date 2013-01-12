@@ -42,4 +42,7 @@ int isType(char* buf);
 int isVariable(char* buf, FILE* f_i);
 struct variables* getVaribles(char* buf, struct variables* var_head, 
     FILE* f_i);
+struct constants* getConstants(char* buf, struct constants* const_head,
+    FILE* f_i);
+
 #endif

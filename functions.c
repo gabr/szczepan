@@ -73,7 +73,7 @@ struct variables* getVaribles(char* buf, struct variables* var_head,
     FILE* f_i){
 
     struct variables* vars_global_head = var_head;
-    char *tmp = malloc(255*sizeof(char));
+    char *tmp = malloc(84*sizeof(char));
     if(tmp == NULL) {
         free(tmp);
         return NULL;
@@ -93,6 +93,7 @@ struct variables* getVaribles(char* buf, struct variables* var_head,
         struct variables *element = malloc(sizeof(struct variables));
         if(element == NULL) {
             free(tmp);
+            free(element);
             return NULL;
         }
         element->typ = malloc(strlen(buf)*sizeof(char));
@@ -106,6 +107,37 @@ struct variables* getVaribles(char* buf, struct variables* var_head,
         else fseek(f_i, ftell(f_i)-1, SEEK_SET);
     }while(c == ',');
 
+    free(tmp);
     return vars_global_head;
+}
+
+struct constants* getConstants(char* buf, struct constants* const_head,
+    FILE* f_i){
+
+    char c, j;
+    char *tmp = malloc(84*sizeof(char));
+    if(tmp == NULL) {
+        free(tmp);
+        return NULL;
+    }
+
+    getFileData(' ', tmp, f_i);
+
+    //------------------------------------------------------------------
+    struct constants *element = malloc(sizeof(struct constants));
+    element->name = malloc(strlen(tmp)*sizeof(char));
+    strcpy(element->name, tmp);
+    element->typ = NULL;
+    element->next = const_head;
+    const_head = element;
+    //------------------------------------------------------------------
+
+    j = fgetc(f_i);
+    while(c = fgetc(f_i), true){
+        if(j != '/' && c == '\n') break;
+        j = c;
+    }
+
+    return const_head;
 }
 #endif
