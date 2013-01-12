@@ -13,12 +13,14 @@ struct constants
 
 int wz(int a, int b)
 {
+
 	char variable;
 	...
 }
 
 void pp(char* name, int how_many)
 {
+	const int cos;
 	int counter;
 	...
 }
